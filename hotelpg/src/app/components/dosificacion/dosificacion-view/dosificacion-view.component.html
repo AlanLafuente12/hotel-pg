@@ -1,0 +1,100 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Dosificación actual</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <h4 *ngIf="!ultimaDosificacion" class="card-title">
+                                <br>
+                                <p class="text-center">No tiene ninguna</p>
+                            </h4>
+
+                            <div *ngIf="ultimaDosificacion">
+                                <h4 class="card-title">
+                                    <b class="font-weight-bold">Numero de autorización:</b> {{ ultimaDosificacion.numero_autorizacion }}
+                                </h4>
+                                <br>
+
+                                <h4 class="card-title">
+                                    <b class="font-weight-bold">Fecha limite de emisión:</b> {{ ultimaDosificacion.fecha_limite_emision | date:'dd/MM/yyyy' }}
+                                </h4>
+                                <br>
+
+                                <h4 class="card-title">
+                                    <b class="font-weight-bold">Llave dosificación:</b> {{ ultimaDosificacion.llave_dosificacion }}
+                                </h4>
+                                <br>
+
+                                <h4 class="card-title">
+                                    <b class="font-weight-bold">Número inicial factura:</b> {{ ultimaDosificacion.numero_inicial_factura }}
+                                </h4>
+                                <br>
+
+                                <h4 class="card-title">
+                                    <b class="font-weight-bold">Número actual factura:</b> {{ ultimaDosificacion.numero_actual_factura }}
+                                </h4>
+                                <br>
+
+                                <h4 class="card-title">
+                                    <b class="font-weight-bold">Leyenda:</b> {{ ultimaDosificacion.leyenda }}
+                                </h4>
+                                <br>
+
+                            </div>
+                            <button type="button" class="btn btn-primary pull-right" (click)="agregarDosificacion()">Agregar nueva dosificacion</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Dosificaciones registradas</h4>
+                        </div>
+
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover ">
+                                <thead *ngIf="dosificaciones && dosificaciones?.length > 0" class="text-primary">
+                                    <th>Número autorizacion</th>
+                                    <th>Fecha limite emisión</th>
+                                    <th>Llave dosificación</th>
+                                    <th>Número inicial factura</th>
+                                    <th>Número actual factura</th>
+                                    <th>Número final factura</th>
+                                    <th>Leyenda</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dosificacion of dosificaciones; let i=index ">
+                                        <td>{{ dosificacion.numero_autorizacion }}</td>
+                                        <td>{{ dosificacion.fecha_limite_emision | date:'dd/MM/yyyy' }}</td>
+                                        <td>{{ dosificacion.llave_dosificacion }}</td>
+                                        <td>{{ dosificacion.numero_inicial_factura }}</td>
+                                        <td>{{ dosificacion.numero_actual_factura }}</td>
+                                        <td>{{ dosificacion.numero_final_factura }}</td>
+                                        <td>{{ dosificacion.leyenda }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

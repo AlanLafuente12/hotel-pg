@@ -1,0 +1,170 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 100px">
+        <div class="container-fluid">
+            <div class="row justify-content-md-center">
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">{{ titulo }}</h4>
+                            <p class="card-category">Completar los datos</p>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="formulario" (ngSubmit)="crearDosificacion()">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['numero_autorizacion'].valid }">
+                                            <label for="numero_autorizacion">Número de autorización*</label>
+                                            <input formControlName="numero_autorizacion" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['numero_autorizacion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['numero_autorizacion'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['numero_autorizacion_confirmacion'].valid }">
+                                            <label for="numero_autorizacion_confirmacion">Número de autorización CONFIRMACIÓN*</label>
+                                            <input formControlName="numero_autorizacion_confirmacion" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['numero_autorizacion_confirmacion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['numero_autorizacion_confirmacion'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['fecha_limite_emision'].valid }">
+                                            <label for="fecha_limite_emision">Fecha limite de emisión*</label>
+                                            <input formControlName="fecha_limite_emision" type="date" class="form-control">
+                                            <div *ngIf="formulario.controls['fecha_limite_emision'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['fecha_limite_emision_confirmacion'].valid }">
+                                            <label for="fecha_limite_emision_confirmacion">Fecha limite de emisión CONFIRMACIÓN*</label>
+                                            <input formControlName="fecha_limite_emision_confirmacion" type="date" class="form-control">
+                                            <div *ngIf="formulario.controls['fecha_limite_emision_confirmacion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['llave_dosificacion'].valid }">
+                                            <label for="llave_dosificacion">Llave dosificación*</label>
+                                            <input formControlName="llave_dosificacion" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['llave_dosificacion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['numero_autorizacion'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['llave_dosificacion_confirmacion'].valid }">
+                                            <label for="llave_dosificacion_confirmacion">Llave dosificación CONFIRMACIÓN*</label>
+                                            <input formControlName="llave_dosificacion_confirmacion" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['llave_dosificacion_confirmacion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['numero_autorizacion_confirmacion'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-5 offset-md-1">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['numero_inicial_factura'].valid }">
+                                            <label for="numero_inicial_factura">Numero inicial factura*</label>
+                                            <input formControlName="numero_inicial_factura" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['numero_inicial_factura'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['numero_inicial_factura'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['numero_inicial_factura_confirmacion'].valid }">
+                                            <label for="numero_inicial_factura_confirmacion">Numero inicial factura CONFIRMACIÓN*</label>
+                                            <input formControlName="numero_inicial_factura_confirmacion" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['numero_inicial_factura_confirmacion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['numero_inicial_factura_confirmacion'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['leyenda'].valid }">
+                                            <label for="leyenda">Leyenda*</label>
+                                            <input formControlName="leyenda" type="textarea" class="form-control">
+                                            <div *ngIf="formulario.controls['leyenda'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['leyenda'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['leyenda_confirmacion'].valid }">
+                                            <label for="leyenda">Leyenda CONFIRMACIÓN*</label>
+                                            <input formControlName="leyenda_confirmacion" type="textarea" class="form-control">
+                                            <div *ngIf="formulario.controls['leyenda_confirmacion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['leyenda_confirmacion'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <button class="btn btn-primary pull-right">Guardar</button>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

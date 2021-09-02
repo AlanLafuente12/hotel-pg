@@ -1,0 +1,97 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Productos registrados</h4>
+                        </div>
+
+                        <div class="card-body table-responsive">
+                            <button type="submit" routerLink="/producto/add" class="btn btn-primary pull-right">Agregar nuevo</button>
+                            <h4 *ngIf="productos && productos.length === 0" class="card-title">
+                                <br>
+                                <p class="text-center">No tiene productos registrados</p>
+                            </h4>
+                            <table class="table table-hover ">
+                                <thead *ngIf="productos?.length > 0" class="text-primary">
+                                    <th>Nombre producto</th>
+                                    <th>Precio unitario</th>
+                                    <th>Stock</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let producto of productos; let i=index ">
+                                        <td>{{ producto.nombre_producto }}</td>
+                                        <td>{{ producto.precio_unitario | currency: 'Bs. ' }}</td>
+                                        <td>{{ producto.stock }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-sm" (click)="seleccionarProducto(producto)" data-toggle="modal" data-target="#modStock">Agregar cantidad</button>
+                                            <button type="button" class="btn btn-warning btn-sm" (click)="editarProducto(producto.id_producto)">Editar</button>
+                                            <button type="button" class="btn btn-danger btn-sm" (click)="eliminarProducto(producto.id_producto)">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modStock" tabindex="-1" role="dialog" aria-labelledby="modStockLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modStockLabel">Agregar Stock</h5>
+                <button id="btnCloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limpiarFormulario()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+            </div>
+            <form [formGroup]="formulario" (ngSubmit)="aumentarStock()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="stock">Cantidad*</label>
+                                <input formControlName="stock" type="text" class="form-control">
+                                <div *ngIf="formulario.controls['stock'].errors?.required && advertirObligatorios" class="text-danger">
+                                    Este es un campo requerido
+                                </div>
+                                <div *ngIf="formulario.controls['stock'].errors?.pattern" class="text-danger">
+                                    Este campo solo permite caracteres númericos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    input,
+    select {
+        color: black !important;
+    }
+</style>
+<!-- End Modal -->

@@ -1,0 +1,1 @@
+{"version":3,"file":"canvas.d.ts","sourceRoot":"","sources":["../../../../src/lib/definitions/vector/canvas.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAE,MAAM,qBAAqB,CAAC;AACtD,OAAO,EAAE,OAAO,EAAE,OAAO,EAAE,MAAM,kBAAkB,CAAC;AAEpD;;GAEG;AACH,qBAAa,MAAO,SAAQ,eAAe,CAAC,MAAM,EAAE,OAAO,CAAC;IAExD;;OAEG;gBAEC,OAAO,EAAE,OAAO,EAAE;CAKzB"}

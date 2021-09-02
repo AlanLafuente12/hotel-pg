@@ -1,0 +1,1 @@
+{"version":3,"file":"columns.interface.d.ts","sourceRoot":"","sources":["../../../src/lib/interfaces/columns.interface.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,GAAG,CAAC;AAErC;;GAEG;AACH,MAAM,WAAW,QAAS,SAAQ,gBAAgB;IAC9C,QAAQ,CAAC,OAAO,EAAE,GAAG,EAAE,CAAC;IACxB,QAAQ,CAAC,SAAS,CAAC,EAAE,MAAM,CAAC;CAC/B"}

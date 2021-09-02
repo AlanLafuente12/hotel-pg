@@ -1,0 +1,617 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar navbarTitle="Hospedaje: {{ this.hospedaje.nombre_titular }} - Ver detalles"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7">
+
+
+                    <!-- Tabla huespedes -->
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Huespedes</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#searchHuesped">Agregar</button>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover ">
+                                        <thead *ngIf="hospedajeHuespedes && hospedajeHuespedes?.length > 0" class="text-primary">
+                                            <th>Nombre completo</th>
+                                            <th>Documento identidad</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let huesped of hospedajeHuespedes; let i=index ">
+                                                <td>{{ huesped.nombres }} {{ huesped.primer_apellido }} {{ huesped.segundo_apellido }}</td>
+                                                <td>{{ huesped.documento_identidad }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm" (click)="quitarHuesped(huesped.id_huesped)">Quitar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tabla -->
+
+
+                    <!-- Tabla habitaciones -->
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Habitaciones</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addHabitacion" (click)="obtenerHabitacionesLibres()">Agregar</button>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover ">
+                                        <thead *ngIf="hospedajeHabitaciones && hospedajeHabitaciones?.length > 0" class="text-primary">
+                                            <th>Nombre habitación</th>
+                                            <th>Categoría</th>
+                                            <th>Tarifa</th>
+                                            <th>Total</th>
+                                            <th>Cancelado</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let habitacion of hospedajeHabitaciones; let i=index ">
+                                                <td>{{ habitacion.nombre_habitacion }}</td>
+                                                <td>{{ habitacion.nombre_categoria }}</td>
+                                                <td>{{ habitacion.tarifa | currency: 'Bs.' }}</td>
+                                                <td>{{ this.calcularTotalDeudaHabitacion(habitacion) | currency: 'Bs.' }}</td>
+                                                <td>{{ this.calcularTotalCanceladoHabitacion(habitacion) | currency: 'Bs.' }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm" (click)="quitarHabitacion(habitacion)">Quitar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tabla -->
+
+
+                    <!-- Tabla productos -->
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Productos</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addProducto" (click)="obtenerProductosDisponibles()">Agregar</button>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover">
+                                        <thead *ngIf="hospedajeProductos && hospedajeProductos?.length > 0" class="text-primary">
+                                            <th>Nombre producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Total</th>
+                                            <th>Cancelado</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let producto of hospedajeProductos; let i=index ">
+                                                <td>{{ producto.nombre_producto }}</td>
+                                                <td>{{ producto.cantidad }}</td>
+                                                <td>{{ producto.precio_unitario | currency: 'Bs.' }}</td>
+                                                <td>{{ producto.total | currency: 'Bs.' }}</td>
+                                                <td>{{ this.calcularTotalCanceladoProducto(producto) | currency: 'Bs.' }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm" (click)="quitarProducto(producto)">Quitar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tabla -->
+
+
+                    <!-- Tabla extras -->
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Extras
+                            </h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addExtra">Agregar</button>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover">
+                                        <thead *ngIf="extras && extras?.length > 0" class="text-primary">
+                                            <th>Nombre</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Total</th>
+                                            <th>Cancelado</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let extra of extras; let i=index ">
+                                                <td>{{ extra.nombre }}</td>
+                                                <td>{{ extra.cantidad }}</td>
+                                                <td>{{ extra.precio_unitario | currency: 'Bs.' }}</td>
+                                                <td>{{ calcularTotalDeudaExtra(extra) | currency: 'Bs.' }}</td>
+                                                <td>{{ this.calcularTotalCanceladoExtra(extra) | currency: 'Bs.' }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm" (click)="quitarExtra(extra)">Quitar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tabla -->
+
+
+
+                </div>
+                <div class="col-md-5">
+
+
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Detalle</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+
+                            <h4 class="card-title">
+                                <b class="font-weight-bold">Check in:</b>
+                                <p class="card-text float-right">
+                                    {{ hospedaje.check_in | date:'dd/MM/yyyy h:mm aaaaa\'m\''}}
+                                </p>
+                            </h4>
+                            <br>
+
+                            <h4 class="card-title">
+                                <b class="font-weight-bold">Total cuenta:</b>
+                                <p class="card-text float-right">
+                                    {{ hospedaje.total_cuenta | currency: 'Bs. '}}
+                                </p>
+                            </h4>
+                            <h4 class="card-title">
+                                <b class="font-weight-bold">Total cancelado:</b>
+                                <p class="card-text float-right">
+                                    {{ hospedaje.total_cancelado | currency: 'Bs. '}}
+                                </p>
+                            </h4>
+                            <h4 class="card-title">
+                                <b class="font-weight-bold">Total deuda:</b>
+                                <p class="card-text float-right">
+                                    {{ calcularTotalDeudaHospedaje() | currency: 'Bs. '}}
+                                </p>
+                            </h4>
+                            <br>
+
+                            <h4 class="card-title">
+                                <b class="font-weight-bold">Personas agregadas:</b> {{ hospedaje.total_personas }}
+                            </h4>
+                            <br>
+
+                            <h4 class="card-title">
+                                <b class="font-weight-bold">Observación:</b>
+                            </h4>
+                            <p class="card-text">{{ hospedaje.observacion }}</p>
+                            <button type="button" class="btn btn-primary pull-right" (click)="realizarPago()">Realizar pago</button>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Pagos Realizados</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover">
+                                        <thead *ngIf="facturas?.length > 0" class="text-primary">
+                                            <th>Factura</th>
+                                            <th>Nit</th>
+                                            <th>Razon Social</th>
+                                            <th>Total</th>
+                                            <th>Estado</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let factura of facturas; let i=index ">
+                                                <td>{{ factura.numero_factura }}</td>
+                                                <td>{{ factura.nit_ci }}</td>
+                                                <td>{{ factura.razon_social }}</td>
+                                                <td>{{ factura.total | currency: 'Bs.' }}</td>
+                                                <td>{{ factura.estado }}</td>
+                                                <td>
+                                                    <button *ngIf="factura.estado==='V'" type="button" class="btn btn-danger btn-sm" (click)="anularFactura(factura)">Anular</button>
+                                                    <button type="button" class="btn btn-success btn-sm" (click)="mostrarFactura(factura)">Ver</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>
+
+
+
+<!-- Modal Buscar Huespedes -->
+<div class="modal fade" id="searchHuesped" tabindex="-1" role="dialog" aria-labelledby="searchHuespedLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchHuespedLabel">Agregar Huesped</h5>
+                <button id="btnCloseSearchHuesped" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" type="text" placeholder="Ingrese nombre o documento de identidad" (keyup)="buscarHuesped(buscarTexto.value)" #buscarTexto>
+                <div *ngIf=" huespedesResult?.length === 0 && buscarTexto.value !== '' " style="text-align: center;">
+                    <br>
+                    <p>No hay resultados para la busqueda</p>
+                    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addHuesped">Crear huesped</button>
+                </div>
+                <table class="table table-hover ">
+                    <thead *ngIf="huespedesResult?.length > 0" class="text-primary">
+                        <th>Nombre Completo</th>
+                        <th>Documento Identidad</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let huesped of huespedesResult; let i=index ">
+                            <td>{{ huesped.nombres }} {{ huesped.primer_apellido }} {{ huesped.segundo_apellido }}</td>
+                            <td>{{ huesped.documento_identidad }}</td>
+                            <td>
+                                <p *ngIf="!esAgregable(huesped)">Agregado</p>
+                                <button *ngIf="esAgregable(huesped)" type="button" class="btn btn-primary btn-sm" (click)="agregarHuesped(huesped)">Agregar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
+
+<!-- Modal Agregar Huespedes -->
+<div class="modal fade" id="addHuesped" tabindex="-1" role="dialog" aria-labelledby="addHuespedLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addHuespedLabel">Agregar Huesped</h5>
+                <button id="btnCloseAddHuesped" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="formularioHuesped" (ngSubmit)="crearHuesped()">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['nombres'].valid }">
+                                <label for="nombres">Nombres*</label>
+                                <input formControlName="nombres" type="text" class="form-control">
+                                <div *ngIf="formularioHuesped.controls['nombres'].errors?.required && advertirObligatoriosHuesped" class="text-danger">
+                                    Este es un campo requerido
+                                </div>
+                                <div *ngIf="formularioHuesped.controls['nombres'].errors?.minlength" class="text-danger">
+                                    Este campo debe tener por lo menos 3 caracteres
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['primer_apellido'].valid }">
+                                <label for="primer_apellido">Primer Apellido*</label>
+                                <input formControlName="primer_apellido" type="text" class="form-control">
+                                <div *ngIf="formularioHuesped.controls['primer_apellido'].errors?.required && advertirObligatoriosHuesped" class="text-danger">
+                                    Este es un campo requerido
+                                </div>
+                                <div *ngIf="formularioHuesped.controls['primer_apellido'].errors?.minlength" class="text-danger">
+                                    Este campo debe tener por lo menos 3 caracteres
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['segundo_apellido'].valid }">
+                                <label for="segundo_apellido">Segundo Apellido</label>
+                                <input formControlName="segundo_apellido" type="text" class="form-control">
+                                <div *ngIf="formularioHuesped.controls['segundo_apellido'].errors?.minlength" class="text-danger">
+                                    Este campo debe tener por lo menos 3 caracteres
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['documento_identidad'].valid }">
+                                <label for="documento_identidad">Documento de identidad*</label>
+                                <input formControlName="documento_identidad" type="text" class="form-control">
+                                <div *ngIf="formularioHuesped.controls['documento_identidad'].errors?.required && advertirObligatoriosHuesped" class="text-danger">
+                                    Este es un campo requerido
+                                </div>
+                                <div *ngIf="formularioHuesped.controls['documento_identidad'].errors?.minlength" class="text-danger">
+                                    Este campo debe tener por lo menos 7 caracteres
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['fecha_nacimiento'].valid }">
+                                <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                                <input formControlName="fecha_nacimiento" type="date" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['estado_civil'].valid }">
+                                <label for="estado_civil">Estado civil</label>
+                                <input formControlName="estado_civil" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['nacionalidad'].valid }">
+                                <label for="nacionalidad">Nacionalidad</label>
+                                <input formControlName="nacionalidad" type="text" class="form-control">
+                                <div *ngIf="formularioHuesped.controls['nacionalidad'].errors?.pattern" class="text-danger">
+                                    Este campo solo permite letras
+                                </div>
+                                <div *ngIf="formularioHuesped.controls['nacionalidad'].errors?.minlength" class="text-danger">
+                                    Este campo debe tener por lo menos 3 caracteres
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['ocupacion'].valid }">
+                                <label for="ocupacion">Ocupación</label>
+                                <input formControlName="ocupacion" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['telefono'].valid }">
+                                <label for="telefono">Teléfono</label>
+                                <input formControlName="telefono" type="text" class="form-control">
+                                <div *ngIf="formularioHuesped.controls['telefono'].errors?.pattern" class="text-danger">
+                                    Este campo solo permite caracteres númericos
+                                </div>
+                                <div *ngIf="formularioHuesped.controls['telefono'].errors?.minlength" class="text-danger">
+                                    Este campo debe tener por lo menos 7 números
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioHuesped.controls['correo'].valid }">
+                                <label for="correo">Correo</label>
+                                <input formControlName="correo" type="text" class="form-control">
+                                <div *ngIf="formularioHuesped.controls['correo'].errors?.email" class="text-danger">
+                                    Correo electronico no valido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <button class="btn btn-primary pull-right">Guardar</button>
+                    <!--[disabled]="!formulario.valid-->
+                    <div class="clearfix"></div>
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
+
+
+<!-- Modal Agregar Extra -->
+<div class="modal fade" id="addExtra" tabindex="-1" role="dialog" aria-labelledby="addExtraLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addExtraLabel">Agregar Extra</h5>
+                <button id="btnCloseAddExtra" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="formularioExtra" (ngSubmit)="crearExtra()">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioExtra.controls['nombre'].valid }">
+                                <label for="nombre">Nombre*</label>
+                                <input formControlName="nombre" type="text" class="form-control">
+                                <div *ngIf="formularioExtra.controls['nombre'].errors?.required && advertirObligatoriosExtra" class="text-danger">
+                                    Este es un campo requerido
+                                </div>
+                                <div *ngIf="formularioExtra.controls['nombre'].errors?.minlength" class="text-danger">
+                                    Este campo debe tener por lo menos 3 caracteres
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioExtra.controls['precio_unitario'].valid }">
+                                <label for="precio_unitario">Precio unitario*</label>
+                                <input formControlName="precio_unitario" type="text" class="form-control">
+                                <div *ngIf="formularioExtra.controls['precio_unitario'].errors?.required && advertirObligatoriosExtra" class="text-danger">
+                                    Este es un campo requerido
+                                </div>
+                                <div *ngIf="formularioExtra.controls['precio_unitario'].errors?.pattern" class="text-danger">
+                                    Este campo solo permite caracteres númericos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" [ngClass]="{ 'has-danger': !formularioExtra.controls['cantidad'].valid }">
+                                <label for="cantidad">Cantidad*</label>
+                                <input formControlName="cantidad" type="text" class="form-control">
+                                <div *ngIf="formularioExtra.controls['cantidad'].errors?.required && advertirObligatoriosExtra" class="text-danger">
+                                    Este es un campo requerido
+                                </div>
+                                <div *ngIf="formularioExtra.controls['cantidad'].errors?.pattern" class="text-danger">
+                                    Este campo solo permite caracteres númericos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <button class="btn btn-primary pull-right">Guardar</button>
+                    <!--[disabled]="!formulario.valid-->
+                    <div class="clearfix"></div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
+
+
+<!-- Modal Habitaciones -->
+<div class="modal fade" id="addHabitacion" tabindex="-1" role="dialog" aria-labelledby="addHabitacionLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addHabitacionLabel">Agregar Habitación</h5>
+                <button id="btnCloseAddHabitacion" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="habitacionesLibres?.length === 0">No hay habitaciones libres</p>
+                <table class="table table-hover ">
+                    <thead *ngIf="habitacionesLibres?.length > 0" class="text-primary">
+                        <th>Nombre habitación</th>
+                        <th>Categoria</th>
+                        <th>Tarifa</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let habitacion of habitacionesLibres; let i=index ">
+                            <td>{{ habitacion.nombre_habitacion }}</td>
+                            <td>{{ habitacion.nombre_categoria }}</td>
+                            <td>{{ habitacion.tarifa_usual | currency: 'Bs.' }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm" (click)="agregarHabitacion(habitacion)">Agregar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
+
+<!-- Modal Productos -->
+<div class="modal fade" id="addProducto" tabindex="-1" role="dialog" aria-labelledby="addProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductoLabel">Agregar Producto</h5>
+                <button id="btnCloseAddProducto" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="productos?.length === 0">No hay productos disponibles</p>
+                <table class="table table-hover ">
+                    <thead *ngIf="productos?.length > 0" class="text-primary">
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Cantidad</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let producto of productos; let i=index ">
+                            <td>{{ producto.nombre_producto }}</td>
+                            <td>{{ producto.precio_unitario | currency: 'Bs.' }}</td>
+                            <td>{{ producto.stock }}</td>
+                            <td>
+                                <select id='producto_id{{producto.id_producto}}' class="form-control">
+                                                        <option *ngFor="let item of [].constructor(producto.stock), let i = index" value='{{ i+1 }}'>{{ i+1 }}</option>
+                                                    </select>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm" (click)="agregarProducto(producto)">Agregar</button>
+                            </td>
+                            <style>
+                                label,
+                                input,
+                                select {
+                                    color: black !important;
+                                }
+                            </style>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->

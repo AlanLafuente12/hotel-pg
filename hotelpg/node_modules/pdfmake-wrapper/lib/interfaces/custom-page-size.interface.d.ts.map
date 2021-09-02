@@ -1,0 +1,1 @@
+{"version":3,"file":"custom-page-size.interface.d.ts","sourceRoot":"","sources":["../../../src/lib/interfaces/custom-page-size.interface.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,WAAW,eAAe;IAC5B,QAAQ,CAAC,KAAK,EAAE,MAAM,GAAG,MAAM,CAAC;IAChC,QAAQ,CAAC,MAAM,EAAE,MAAM,GAAG,MAAM,CAAC;CACpC"}

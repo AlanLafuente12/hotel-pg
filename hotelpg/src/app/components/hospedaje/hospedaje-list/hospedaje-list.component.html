@@ -1,0 +1,98 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card animated fadeIn">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Hospedajes registrados</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addNewModal">Agregar nuevo</button>
+                            <h4 *ngIf="hospedajes && hospedajes.length === 0" class="card-title">
+                                <br>
+                                <p class="text-center">No tiene hospedajes agregados</p>
+                            </h4>
+                            <table class="table table-hover ">
+                                <thead *ngIf="hospedajes?.length > 0" class="text-primary">
+                                    <th>Nombre del titular</th>
+                                    <th>Personas</th>
+                                    <th>Check-In</th>
+                                    <th>Total cuenta</th>
+                                    <th>Cancelado</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let hospedaje of hospedajes; let i=index ">
+                                        <td>{{ hospedaje.nombre_titular }}</td>
+                                        <td>{{ hospedaje.total_personas }}</td>
+                                        <td>{{ hospedaje.check_in | date:'dd/MM/yyyy h:mm aaaaa\'m\''}}</td>
+                                        <td>{{ hospedaje.total_cuenta | currency: 'Bs. ' }} </td>
+                                        <td>{{ hospedaje.total_cancelado | currency: 'Bs. ' }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm" (click)="verHospedaje(hospedaje.id_hospedaje)">Ver detalles</button>
+                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#addNewModal" (click)="comenzarEdicionHospedaje(hospedaje)">Editar</button>
+                                            <button type="button" class="btn btn-danger btn-sm" (click)="eliminarHospedaje(hospedaje.id_hospedaje)">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addNewModalLabel" *ngIf="!editando">Agregar Nuevo Hospedaje</h5>
+                <h5 class="modal-title" id="addNewModalLabel" *ngIf="editando">Editar Hospedaje</h5>
+                <button id="btnCloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limpiarFormulario()">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+            </div>
+            <form [formGroup]="formulario" (ngSubmit)="!editando ? crearHospedaje() : editarHospedaje()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="nombre_titular" [ngClass]="{'bmd-label-floating': !editando}">Nombre titular*</label>
+                                <input formControlName="nombre_titular" type="text" class="form-control" style='color:gray;'>
+                                <div *ngIf="formulario.controls['nombre_titular'].errors?.required && advertirObligatorios" class="text-danger">
+                                    Este es un campo requerido
+                                </div>
+                                <div *ngIf="formulario.controls['nombre_titular'].errors?.minlength" class="text-danger">
+                                    Este campo debe tener por lo menos 3 caracteres
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" *ngIf="!editando">Agregar</button>
+                    <button type="submit" class="btn btn-primary" *ngIf="editando">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarFormulario()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->

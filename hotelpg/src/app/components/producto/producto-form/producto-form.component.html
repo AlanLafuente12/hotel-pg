@@ -1,0 +1,74 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 100px">
+        <div class="container-fluid">
+            <div class="row justify-content-md-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">{{ titulo }}</h4>
+                            <p class="card-category">Completar los datos</p>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="formulario" (ngSubmit)="editando ? modificarProducto() : crearProducto()">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['nombre_producto'].valid }">
+                                            <label for="nombre_producto">Nombre producto*</label>
+                                            <input formControlName="nombre_producto" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['nombre_producto'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['nombre_producto'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['precio_unitario'].valid }">
+                                            <label for="precio_unitario">Precio unitario*</label>
+                                            <input formControlName="precio_unitario" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['precio_unitario'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['precio_unitario'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="col-md-5">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['stock'].valid }">
+                                            <label for="stock">Stock*</label>
+                                            <input formControlName="stock" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['stock'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['stock'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                        </div>
+                                    </div>
+                                    -->
+                                </div>
+                                <button class="btn btn-primary pull-right">Guardar</button>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

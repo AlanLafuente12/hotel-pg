@@ -1,0 +1,115 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Habitaciones registradas</h4>
+                        </div>
+
+                        <div class="card-body table-responsive">
+
+                            <div class="row">
+                                <div class="col-sm-12" *ngIf="this.loginService.rolUsuario==='gerente'">
+                                    <button type="button" *ngIf="!modoEdicion" (click)="switchModoEdicion()" class="btn btn-primary pull-right">Modo edición</button>
+                                    <button type="button" *ngIf="modoEdicion" (click)="switchModoEdicion()" class="btn btn-primary pull-right">Salir de modo edición</button>
+                                    <h4 *ngIf="habitaciones && habitaciones.length === 0 && !modoEdicion" class="card-title">
+                                        <br>
+                                        <p class="text-center">Entre a modo edición para agregar habitaciones</p>
+                                    </h4>
+                                </div>
+                                <div class="col-sm-12" *ngIf="this.loginService.rolUsuario==='empleado'">
+                                    <h4 *ngIf="habitaciones && habitaciones.length === 0" class="card-title">
+                                        <br>
+                                        <p class="text-center">No hay habitaciones registradas</p>
+                                    </h4>
+                                </div>
+
+
+                                <div class="col-sm-8 offset-sm-2" *ngIf="modoEdicion">
+                                    <form [formGroup]="formulario" (ngSubmit)="!editando ? crearHabitacion() : editarHabitacion()">
+                                        <div class="card bg-dark text-white text-center p-3">
+                                            <blockquote *ngIf="!editando" class="blockquote mb-0">
+                                                Agregar Nueva Habitación
+                                            </blockquote>
+                                            <blockquote *ngIf="editando" class="blockquote mb-0">
+                                                Editar Habitación
+                                            </blockquote>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label for="nombre_habitacion">Nombre habitación*</label>
+                                                    <input formControlName="nombre_habitacion" type="text" class="form-control">
+                                                    <div *ngIf="formulario.controls['nombre_habitacion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                        Este es un campo requerido
+                                                    </div>
+                                                    <div *ngIf="formulario.controls['nombre_habitacion'].errors?.minlength" class="text-danger">
+                                                        Este campo debe tener por lo menos 3 caracteres
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label for="id_categoria_habitacion">Categoría*</label>
+                                                    <select formControlName="id_categoria_habitacion" class="form-control" (change)="onNavigate($event.target.value)">
+                                                        <option [value]="categoria.id_categoria_habitacion" *ngFor="let categoria of categorias; let i=index">{{ categoria.nombre_categoria }}</option>
+                                                        <option *ngIf="this.loginService.rolUsuario==='gerente'" disabled> </option>
+                                                        <option *ngIf="this.loginService.rolUsuario==='gerente'" value="categorias">Editar categorías...</option>
+                                                    </select>
+
+                                                    <div *ngIf="formulario.controls['id_categoria_habitacion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                        Este es un campo requerido
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+
+                                            <button *ngIf="!editando" routerLink="/habitacion" class="btn btn-success">Agregar</button>
+                                            <button *ngIf="editando" routerLink="/habitacion" class="btn btn-success">Guardar</button>
+                                            <button *ngIf="editando" (click)="cancelarEdicion()" class="btn btn-info">Cancelar</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-4" *ngFor="let habitacion of habitaciones; let i=index ">
+                                    <div class="card bg-primary text-white text-center p-3">
+                                        <blockquote class="blockquote mb-0">
+                                            {{ habitacion.nombre_habitacion }}
+                                            <h5 class="card-title">{{ devolverNombreCategoria(habitacion.id_categoria_habitacion) }}</h5>
+                                            <style>
+                                                h5 {
+                                                    color: rgb(230, 230, 230) !important;
+                                                }
+                                            </style>
+                                            <div class="card text-white mb-3" [ngClass]="{'bg-success': habitacion.ocupado==='t', 'bg-info': habitacion.ocupado==='f'}" *ngIf="!modoEdicion">
+                                                <div class="card-header" *ngIf="habitacion.ocupado==='t'">Ocupado</div>
+                                                <div class="card-header" *ngIf="habitacion.ocupado==='f'">Libre</div>
+                                            </div>
+                                            <button type="button" class="btn btn-warning btn-sm " *ngIf="modoEdicion" (click)="comenzarEdicionHabitacion(habitacion)">Editar</button>
+                                            <button type="button" class="btn btn-danger btn-sm " *ngIf="modoEdicion" (click)="eliminarHabitacion(habitacion)">Eliminar</button>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

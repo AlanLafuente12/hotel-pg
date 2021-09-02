@@ -1,0 +1,1 @@
+{"version":3,"file":"svg.d.ts","sourceRoot":"","sources":["../../../src/lib/definitions/svg.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAE,MAAM,oBAAoB,CAAC;AACrD,OAAO,EAAE,IAAI,EAAE,MAAM,eAAe,CAAC;AAErC;;GAEG;AACH,qBAAa,GAAI,SAAQ,eAAe,CAAC,GAAG,EAAE,IAAI,CAAC;IAE/C;;OAEG;gBACS,GAAG,EAAE,MAAM;IAKvB;;;OAGG;IACI,GAAG,CAAC,GAAG,EAAE,CAAC,MAAM,EAAE,MAAM,CAAC,GAAG,GAAG;CAIzC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"fonts.interface.d.ts","sourceRoot":"","sources":["../../../../src/lib/interfaces/fonts/fonts.interface.ts"],"names":[],"mappings":"AACA,UAAU,IAAI;IACV,GAAG,EAAE;QAAE,CAAC,QAAQ,EAAE,MAAM,GAAG,MAAM,CAAA;KAAE,CAAA;CACtC;AAED;;GAEG;AACH,MAAM,WAAW,MAAM;IACnB,OAAO,EAAE,IAAI,CAAC;CACjB"}

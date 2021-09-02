@@ -1,0 +1,63 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Huéspedes registrados</h4>
+                        </div>
+
+                        <div class="card-body table-responsive">
+                            <button type="submit" routerLink="/huesped/add" class="btn btn-primary pull-right">Agregar nuevo</button>
+                            <h4 *ngIf="huespedes && huespedes.length === 0" class="card-title">
+                                <br>
+                                <p class="text-center">No tiene huespedes registrados</p>
+                            </h4>
+                            <table class="table table-hover ">
+                                <thead *ngIf="huespedes?.length > 0" class="text-primary">
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>Documento Identidad</th>
+                                    <th>Fecha nacimiento</th>
+                                    <th>Estado civil</th>
+                                    <th>Ocupación</th>
+                                    <th>Nacionalidad</th>
+                                    <th>Teléfono</th>
+                                    <th>Correo</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let huesped of huespedes; let i=index ">
+                                        <td>{{ huesped.nombres }}</td>
+                                        <td>{{ huesped.primer_apellido }} {{ huesped.segundo_apellido }}</td>
+                                        <td>{{ huesped.documento_identidad }}</td>
+                                        <td>{{ huesped.fecha_nacimiento | date:'dd/MM/yyyy' }}</td>
+                                        <td>{{ huesped.estado_civil }}</td>
+                                        <td>{{ huesped.ocupacion }}</td>
+                                        <td>{{ huesped.nacionalidad }}</td>
+                                        <td>{{ huesped.telefono }}</td>
+                                        <td>{{ huesped.correo }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning btn-sm" (click)="editarHuesped(huesped.id_huesped)">Editar</button>
+                                            <button type="button" class="btn btn-danger btn-sm" (click)="eliminarHuesped(huesped.id_huesped)">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

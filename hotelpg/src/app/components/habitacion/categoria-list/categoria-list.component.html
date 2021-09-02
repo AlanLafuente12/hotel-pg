@@ -1,0 +1,116 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Categorías registradas</h4>
+                        </div>
+
+                        <div class="card-body table-responsive">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h4 *ngIf="categoriasHabitacion && categoriasHabitacion.length === 0" class="card-title">
+                                        <br>
+                                        <p class="text-center">No tiene categorías agregadas</p>
+                                    </h4>
+                                    <table class="table table-hover ">
+                                        <thead *ngIf="categoriasHabitacion?.length > 0" class="text-primary">
+                                            <th>Nombre categoría</th>
+                                            <th>Cantidad de camas</th>
+                                            <th>Tarifa usual</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let categoria of categoriasHabitacion; let i=index ">
+                                                <td>{{ categoria.nombre_categoria }}</td>
+                                                <td>{{ categoria.cantidad_camas }}</td>
+                                                <td>{{ categoria.tarifa_usual | currency: 'Bs.' }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning btn-sm" (click)="comenzarEdicionCategoria(categoria)">Editar</button>
+                                                    <button type="button" class="btn btn-danger btn-sm" (click)="eliminarCategoria(categoria.id_categoria_habitacion)">Eliminar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <form [formGroup]="formulario" (ngSubmit)="!editando ? crearCategoria() : editarCategoria()">
+                                        <div class="card bg-dark text-white text-center p-3">
+                                            <blockquote *ngIf="!editando" class="blockquote mb-0">
+                                                Agregar Nueva Categoría
+                                            </blockquote>
+                                            <blockquote *ngIf="editando" class="blockquote mb-0">
+                                                Editar Categoría
+                                            </blockquote>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label for="nombre_categoria">Nombre categoría*</label>
+                                                    <input formControlName="nombre_categoria" type="text" class="form-control">
+                                                    <div *ngIf="formulario.controls['nombre_categoria'].errors?.required && advertirObligatorios" class="text-danger">
+                                                        Este es un campo requerido
+                                                    </div>
+                                                    <div *ngIf="formulario.controls['nombre_categoria'].errors?.minlength" class="text-danger">
+                                                        Este campo debe tener por lo menos 3 caracteres
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label for="cantidad_camas">Cantidad de camas*</label>
+                                                    <input formControlName="cantidad_camas" type="text" class="form-control">
+                                                    <div *ngIf="formulario.controls['cantidad_camas'].errors?.required && advertirObligatorios" class="text-danger">
+                                                        Este es un campo requerido
+                                                    </div>
+                                                    <div *ngIf="formulario.controls['cantidad_camas'].errors?.pattern" class="text-danger">
+                                                        Este campo solo permite caracteres númericos
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label for="tarifa_usual">Tarifa usual*</label>
+                                                    <input formControlName="tarifa_usual" type="text" class="form-control">
+                                                    <div *ngIf="formulario.controls['tarifa_usual'].errors?.required && advertirObligatorios" class="text-danger">
+                                                        Este es un campo requerido
+                                                    </div>
+                                                    <div *ngIf="formulario.controls['tarifa_usual'].errors?.pattern" class="text-danger">
+                                                        Este campo solo permite caracteres númericos
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <!--
+                                                <button type="submit" class="btn btn-success">Agregar</button>
+                                            -->
+                                            <button *ngIf="!editando" routerLink="/categoria" class="btn btn-success">Agregar</button>
+                                            <button *ngIf="editando" routerLink="/categoria" class="btn btn-success">Guardar</button>
+                                            <button *ngIf="editando" (click)="cancelarEdicion()" class="btn btn-info">Cancelar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

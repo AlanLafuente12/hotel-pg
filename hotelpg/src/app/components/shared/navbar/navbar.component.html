@@ -1,0 +1,159 @@
+<div class="sidebar image-sidebar" data-color="primary" data-background-color="black">
+    <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+        Tip 2: you can also add an image using data-image tag
+        data-image="../../assets/img/sidebar-2.jpg"
+    -->
+    <div class="logo">
+        <a class="simple-text logo-normal" *ngIf="this.loginService.rolUsuario === 'admin'">
+            <div class="row">
+                <div style="margin-left: 3vh">
+                    <!-- esta parte centra el logo cuando no esta colapsado -->
+                </div>
+                <div class="col-lg-3">
+                    <i class="mdi mdi-48px mdi-shield-account-variant "></i>
+                </div>
+                <div class="col-lg-1 align-self-center">
+                    System
+                    <small>
+                        Admin
+                    </small>
+                </div>
+            </div>
+        </a>
+
+        <a class="simple-text logo-normal text-white " *ngIf="!this.loginService.rolUsuario">
+            <div class="row">
+                <div style="margin-left: 6vh">
+                    <!-- esta parte centra el logo cuando no esta colapsado -->
+                </div>
+                <div class="col-lg-3">
+                    <div class="circular--landscape--small app-logo">
+                        <img src="../../../../assets/img/favicon.png">
+                    </div>
+                </div>
+                <div class="col-lg-1 align-self-center">
+                    HOTEL
+                    <small>
+                        PG
+                    </small>
+                </div>
+            </div>
+        </a>
+
+        <a class="simple-text logo-normal" *ngIf="this.loginService.rolUsuario === 'gerente' || this.loginService.rolUsuario === 'empleado'">
+            <div class="row">
+                <div style="margin-left: 3vh">
+                </div>
+                <div class="col-lg-3">
+                    <div class="circular--landscape--small">
+                        <img [src]="getImageSrc(hotel)">
+                    </div>
+                </div>
+                <div class="col-lg-1 align-self-center">
+                    {{ loginService.nombreHotel }}
+                    <small>
+                        HOTEL 
+                    </small>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            <!--
+            <li *ngIf="!this.loginService.rolUsuario" class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/main']">
+                    <i class="mdi mdi-24px mdi-home"></i>
+                    <p>Página Principal</p>
+                </a>
+            </li>
+            -->
+
+            <li *ngIf="this.loginService.rolUsuario==='gerente'" class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/hotel/manage']">
+                    <i class="mdi mdi-24px mdi-home-city-outline"></i>
+                    <p>Mi Hotel</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='admin'" class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/hotel']">
+                    <i class="mdi mdi-24px mdi-home-city-outline"></i>
+                    <p>Hoteles</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='admin'" class="nav-item " routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/admin']">
+                    <i class="mdi mdi-24px mdi-shield-account"></i>
+                    <!-- mdi-shield-account-variant -->
+                    <p>Administradores</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='admin' || this.loginService.rolUsuario==='gerente'" class="nav-item " routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/gerente']">
+                    <i class="mdi mdi-24px mdi-account-tie"></i>
+                    <p>Gerentes</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='gerente'" class="nav-item " routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/empleado']">
+                    <i class="mdi mdi-24px mdi-account"></i>
+                    <p>Empleados</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='gerente' || this.loginService.rolUsuario==='empleado'" class="nav-item " routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/hospedaje']">
+                    <i class="mdi mdi-24px mdi-bed"></i>
+                    <p>Hospedajes</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='gerente' || this.loginService.rolUsuario==='empleado'" class="nav-item " routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/huesped']">
+                    <i class="mdi mdi-24px mdi-face"></i>
+                    <!-- mdi-human-queue -->
+                    <p>Huéspedes</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='gerente' || this.loginService.rolUsuario==='empleado'" class="nav-item " routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/reserva']">
+                    <i class="mdi mdi-24px mdi-calendar-multiselect"></i>
+                    <p>Reservaciones</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='gerente'" class="nav-item " routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/producto']">
+                    <i class="mdi mdi-24px mdi-cart"></i>
+                    <p>Productos</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='gerente' || this.loginService.rolUsuario==='empleado'" class="nav-item dropdown" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/habitacion']" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="mdi mdi-24px mdi-door-closed"></i>
+                    <p>Habitaciones<span class="caret" *ngIf="this.loginService.rolUsuario==='gerente'"></span>
+                    </p>
+                </a>
+                <div *ngIf="this.loginService.rolUsuario==='gerente'" class="dropdown-menu dropdown-menu-right">
+                    <li class="dropdown-item" [routerLink]="['/categoria']" routerLinkActive="active">
+                        <p class="dropdown-text">
+                            Categorias
+                        </p>
+                    </li>
+                </div>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='gerente'" class="nav-item " routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/dosificacion']">
+                    <i class="mdi mdi-24px mdi-notebook"></i>
+                    <p>Dosificaciones</p>
+                </a>
+            </li>
+            <li *ngIf="this.loginService.rolUsuario==='gerente'" class="nav-item " routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/reporte']">
+                    <i class="mdi mdi-24px mdi-book-open-page-variant"></i>
+                    <p>Reportes</p>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</div>

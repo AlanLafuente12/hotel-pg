@@ -1,0 +1,61 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Reportes disponibles</h4>
+                        </div>
+
+                        <div class="card-body table-responsive">
+                            <button type="submit" routerLink="/cliente/add" class="btn btn-primary pull-right">Agregar nuevo</button>
+                            <table class="table table-hover ">
+                                <!--
+                                    <thead *ngIf="clientesHotel && clientesHotel?.length > 0" class="text-primary">
+                                        <th>Nombre</th>
+                                        <th>Apellidos</th>
+                                        <th>Documento Identidad</th>
+                                        <th>Fecha nacimiento</th>
+                                        <th>Estado civil</th>
+                                        <th>Ocupacion</th>
+                                        <th>Nacionalidad</th>
+                                        <th>Telefono</th>
+                                        <th>Correo</th>
+                                        <th></th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let cliente of clientesHotel; let i=i ndex ">
+                                            <td>{{ cliente.nombres }}</td>
+                                            <td>{{ cliente.primer_apellido }} {{ cliente.segundo_apellido }}</td>
+                                            <td>{{ cliente.documento_identidad }}</td>
+                                            <td>{{ cliente.fecha_nacimiento | slice:0:10 }}</td>
+                                            <td>{{ cliente.estado_civil }}</td>
+                                            <td>{{ cliente.ocupacion }}</td>
+                                            <td>{{ cliente.nacionalidad }}</td>
+                                            <td>{{ cliente.telefono }}</td>
+                                            <td>{{ cliente.correo }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning btn-sm" (click)="editarCliente(cliente.id_cliente_hotel)">Editar</button>
+                                                <button type="button" class="btn btn-danger btn-sm" (click)="eliminarCliente(cliente.id_cliente_hotel)">Eliminar</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

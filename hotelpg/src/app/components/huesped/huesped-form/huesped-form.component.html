@@ -1,0 +1,147 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 100px">
+        <div class="container-fluid">
+            <div class="row justify-content-md-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">{{ titulo }}</h4>
+                            <p class="card-category">Completar los datos</p>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="formulario" (ngSubmit)="editando ? modificarHuesped() : crearHuesped()">
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['nombres'].valid }">
+                                            <label for="nombres">Nombres*</label>
+                                            <input formControlName="nombres" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['nombres'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['nombres'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['primer_apellido'].valid }">
+                                            <label for="primer_apellido">Primer Apellido*</label>
+                                            <input formControlName="primer_apellido" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['primer_apellido'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['primer_apellido'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['segundo_apellido'].valid }">
+                                            <label for="segundo_apellido">Segundo Apellido</label>
+                                            <input formControlName="segundo_apellido" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['segundo_apellido'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['documento_identidad'].valid }">
+                                            <label for="documento_identidad">Documento de identidad*</label>
+                                            <input formControlName="documento_identidad" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['documento_identidad'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['documento_identidad'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 7 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['fecha_nacimiento'].valid }">
+                                            <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                                            <input formControlName="fecha_nacimiento" type="date" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['estado_civil'].valid }">
+                                            <label for="estado_civil">Estado civil</label>
+                                            <input formControlName="estado_civil" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['nacionalidad'].valid }">
+                                            <label for="nacionalidad">Nacionalidad</label>
+                                            <input formControlName="nacionalidad" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['nacionalidad'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite letras
+                                            </div>
+                                            <div *ngIf="formulario.controls['nacionalidad'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['ocupacion'].valid }">
+                                            <label for="ocupacion">Ocupación</label>
+                                            <input formControlName="ocupacion" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['telefono'].valid }">
+                                            <label for="telefono">Teléfono</label>
+                                            <input formControlName="telefono" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['telefono'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                            <div *ngIf="formulario.controls['telefono'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 7 números
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['correo'].valid }">
+                                            <label for="correo">Correo</label>
+                                            <input formControlName="correo" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['correo'].errors?.email" class="text-danger">
+                                                Correo electronico no valido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <button class="btn btn-primary pull-right">Guardar</button>
+                                <!--[disabled]="!formulario.valid-->
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

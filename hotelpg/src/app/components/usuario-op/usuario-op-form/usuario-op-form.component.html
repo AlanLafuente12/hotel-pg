@@ -1,0 +1,179 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 100px">
+        <div class="container-fluid">
+            <div class="row justify-content-md-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">{{ titulo }}</h4>
+                            <p class="card-category">Completar los datos</p>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="formulario" (ngSubmit)="editando ? modificarUsuario() : crearUsuario()">
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['nombre_usuario'].valid }">
+                                            <label for="nombre_usuario">Nombre usuario*</label>
+                                            <label *ngIf="this.editando" class="form-control">{{ usuarioOp.nombre_usuario }}</label>
+
+                                            <input *ngIf="!this.editando" formControlName="nombre_usuario" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['nombre_usuario'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['nombre_usuario'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br *ngIf="!editando">
+                                <div *ngIf="!editando" class="row">
+                                    <div class="col-md-11">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['password_nuevo'].valid }">
+                                            <label for="password_nuevo">Password*</label>
+                                            <input formControlName="password_nuevo" type="password" class="form-control">
+                                            <div *ngIf="formulario.controls['password_nuevo'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['password_nuevo'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 7 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br *ngIf="!editando">
+                                <div *ngIf="!editando" class="row">
+                                    <div class="col-md-11">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['password_repetir_nuevo'].valid }">
+                                            <label for="password_repetir_nuevo">Repetir password*</label>
+                                            <input formControlName="password_repetir_nuevo" type="password" class="form-control">
+                                            <div *ngIf="formulario.controls['password_repetir_nuevo'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['password_repetir_nuevo'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 7 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['nombres'].valid }">
+                                            <label for="nombres">Nombres*</label>
+                                            <input formControlName="nombres" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['nombres'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['nombres'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['primer_apellido'].valid }">
+                                            <label for="primer_apellido">Primer Apellido*</label>
+                                            <input formControlName="primer_apellido" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['primer_apellido'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['primer_apellido'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['segundo_apellido'].valid }">
+                                            <label for="segundo_apellido">Segundo Apellido</label>
+                                            <input formControlName="segundo_apellido" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['segundo_apellido'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="rol">Rol*</label>
+                                            <select formControlName="rol" class="form-control">
+                                                <option value="gerente">Gerente</option>
+                                                <option value="empleado">Empleado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                -->
+                                <br>
+                                <div *ngIf="loginService.rolUsuario === 'admin'" class="row">
+                                    <div class="col-md-11">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['id_hotel'].valid }">
+
+                                            <label for="id_hotel">Hotel*</label>
+                                            <select formControlName="id_hotel" class="form-control">
+                                                <option *ngIf="hotelAsignado" [value]="hotelAsignado.id_hotel">{{hotelAsignado.nombre_hotel}}</option>
+                                            </select>
+
+                                            <div *ngIf="formulario.controls['id_hotel'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="loginService.rolUsuario === 'admin'" class="card-body table-responsive">
+                                    <input class="form-control" type="text" placeholder="Buscar hotel a asignar" (keyup)="buscarHotel(buscarTexto.value)" #buscarTexto>
+                                    <br>
+                                    <table class="table table-hover ">
+                                        <thead *ngIf="hotelesResult?.length > 0" class="text-primary">
+                                            <th>Nombre</th>
+                                            <th>Dirección</th>
+                                            <th>Departamento</th>
+                                            <th>Estrellas</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let hotel of hotelesResult; let i=index ">
+                                                <td>Hotel {{ hotel.nombre_hotel }}</td>
+                                                <td>{{ hotel.direccion }}</td>
+                                                <td>{{ hotel.departamento }}</td>
+                                                <td>
+                                                    <!-- <a *ngFor="let i of [].constructor(3) "> -->
+                                                    <a *ngFor="let i of ' '.repeat(hotel.cantidad_estrellas).split( '') ">
+                                                        <i class="material-icons ">star</i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning btn-sm" (click)="asignarHotel(hotel); buscarTexto.value=''">Asignar Hotel</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <br *ngIf="loginService.rolUsuario === 'admin'">
+                                <button class="btn btn-primary pull-right">Guardar</button>
+                                <!--[disabled]="!formulario.valid-->
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

@@ -1,0 +1,155 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row justify-content-md-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">{{ titulo }}</h4>
+                            <p class="card-category">Completar los datos</p>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="formulario" (ngSubmit)="editando ? modificarHotel() : crearHotel()">
+
+                                <br>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label for="nombre_hotel">Logo:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class='d-flex justify-content-center'>
+                                            <div class="circular--landscape">
+                                                <img [src]="selectedFile.src" *ngIf="selectedFile">
+                                                <img [src]="imagePath" *ngIf="!selectedFile">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class='d-flex justify-content-center'>
+                                            <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['nombre_hotel'].valid }">
+                                            <label for="nombre_hotel">Nombre*</label>
+                                            <input formControlName="nombre_hotel" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['nombre_hotel'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['nombre_hotel'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['direccion'].valid }">
+                                            <label for="direccion">Dirección*</label>
+                                            <input formControlName="direccion" class="form-control">
+                                            <div *ngIf="formulario.controls['direccion'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['direccion'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 7 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['departamento'].valid }">
+                                            <label for="departamento">Departamento*</label>
+                                            <select formControlName="departamento" class="form-control">
+                                                <option value="Cochabamba">Cochabamba</option>
+                                                <option value="La Paz">La Paz</option>
+                                                <option value="Santa Cruz">Santa Cruz</option>
+                                                <option value="Oruro">Oruro</option>
+                                                <option value="Potosi">Potosi</option>
+                                                <option value="Chuquisaca">Chuquisaca</option>
+                                                <option value="Tarija">Tarija</option>
+                                                <option value="Beni">Beni</option>
+                                                <option value="Pando">Pando</option>
+                                            </select>
+                                            <div *ngIf="formulario.controls['departamento'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="cantidad_estrellas">Estrellas*</label>
+                                            <select formControlName="cantidad_estrellas" class="form-control">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['nit'].valid }">
+                                            <label for="nit">Nit</label>
+                                            <input formControlName="nit" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['nit'].errors?.pattern" class="text-danger">
+                                                Este campo solo permite caracteres númericos
+                                            </div>
+                                            <div *ngIf="formulario.controls['nit'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 7 números
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="color">Color</label>
+                                            <select formControlName="color" class="form-control" (change)="probarColor($event.target.value)">
+                                                <option value="deep_purple" style="background: var(--deep_purple_primary1); color: #fff !important;">Deep purple</option>
+                                                <option value="purple" style="background: var(--purple_primary1); color: #fff !important;">Purple</option>
+                                                <option value="pink" style="background: var(--pink_primary1); color: #fff !important;">Pink</option>
+                                                <option value="red" style="background: var(--red_primary1); color: #fff !important;">Red</option>
+                                                <option value="orange" style="background: var(--orange_primary1); color: #fff !important;">Orange</option>
+                                                <option value="brown" style="background: var(--brown_primary1); color: #fff !important;">Brown</option>
+                                                <option value="indigo" style="background: var(--indigo_primary1); color: #fff !important;">Indigo</option>
+                                                <option value="blue" style="background: var(--blue_primary1); color: #fff !important;">Blue</option>
+                                                <option value="azure" style="background: var(--azure_primary1); color: #fff !important;">Azure</option>
+                                                <option value="green" style="background: var(--green_primary1); color: #fff !important;">Green</option>
+                                                <option value="teal" style="background: var(--teal_primary1); color: #fff !important;">Teal</option>
+                                                <option value="gray" style="background: var(--gray_primary1); color: #fff !important;">Gray</option>
+                                                <option value="soft-black" style="background: var(--soft-black_primary1); color: #fff !important;">Black</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary pull-right">Guardar</button>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

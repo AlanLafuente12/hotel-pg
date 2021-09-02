@@ -1,0 +1,1 @@
+//# sourceMappingURL=ellipse.interface.js.map

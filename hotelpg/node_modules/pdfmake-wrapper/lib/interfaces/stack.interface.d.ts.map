@@ -1,0 +1,1 @@
+{"version":3,"file":"stack.interface.d.ts","sourceRoot":"","sources":["../../../src/lib/interfaces/stack.interface.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,GAAG,CAAC;AAErC;;GAEG;AACH,MAAM,WAAW,MAAO,SAAQ,gBAAgB;IAC5C,QAAQ,CAAC,KAAK,EAAE,MAAM,EAAE,CAAC;CAC5B"}

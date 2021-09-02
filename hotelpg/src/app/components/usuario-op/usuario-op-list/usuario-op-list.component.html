@@ -1,0 +1,55 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">{{ this.tipoUsuarios }} registrados</h4>
+                        </div>
+
+                        <div class="card-body table-responsive">
+                            <button type="submit" (click)="agregarNuevo()" class="btn btn-primary pull-right">Agregar nuevo</button>
+                            <h4 *ngIf="usuarios && usuarios.length === 0" class="card-title">
+                                <br>
+                                <p class="text-center">No hay usuarios registrados</p>
+                            </h4>
+                            <table class="table table-hover ">
+                                <thead *ngIf="usuarios?.length > 0" class="text-primary">
+                                    <th>Nombre de usuario</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>Rol</th>
+                                    <th *ngIf="loginService.rolUsuario === 'admin'">Hotel</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let usuario of usuarios; let i=index ">
+                                        <td>{{ usuario.nombre_usuario }}</td>
+                                        <td>{{ usuario.nombres | titlecase }}</td>
+                                        <td>{{ usuario.primer_apellido | titlecase }} {{ usuario.segundo_apellido | titlecase }}</td>
+                                        <td>{{ usuario.rol | titlecase }}</td>
+                                        <td *ngIf="loginService.rolUsuario === 'admin'">{{ usuario.nombre_hotel | titlecase }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning btn-sm" (click)="editarUsuario(usuario.id_usuario_op)">Editar</button>
+                                            <button type="button" class="btn btn-danger btn-sm" (click)="eliminarUsuario(usuario.id_usuario_op)">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

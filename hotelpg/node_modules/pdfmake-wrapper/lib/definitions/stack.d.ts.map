@@ -1,0 +1,1 @@
+{"version":3,"file":"stack.d.ts","sourceRoot":"","sources":["../../../src/lib/definitions/stack.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAE,MAAM,oBAAoB,CAAC;AACrD,OAAO,EAAE,MAAM,EAAE,MAAM,eAAe,CAAC;AAEvC;;GAEG;AACH,qBAAa,KAAM,SAAQ,eAAe,CAAC,KAAK,EAAE,MAAM,CAAC;IAMjD,OAAO,CAAC,MAAM;IAJlB;;OAEG;gBAES,MAAM,EAAE,GAAG,EAAE;CAM5B"}

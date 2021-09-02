@@ -1,0 +1,226 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar navbarTitle="Hospedaje: {{ this.hospedaje.nombre_titular }} - Realizar pago"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7">
+
+
+                    <!-- Tabla habitaciones -->
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Habitaciones</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover ">
+                                        <thead *ngIf="hospedajeHabitaciones?.length > 0" class="text-primary">
+                                            <th>Nombre habitación</th>
+                                            <th>Categoría</th>
+                                            <th>Deuda</th>
+                                            <th>Días cancelados</th>
+                                            <th>Días a pagar</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let habitacion of hospedajeHabitaciones; let i=index ">
+                                                <td>{{ habitacion.nombre_habitacion }}</td>
+                                                <td>{{ habitacion.nombre_categoria }}</td>
+                                                <td>{{ calcularTotalDeudaHabitacion(habitacion) | currency: 'Bs.' }}</td>
+                                                <td>{{ habitacion.dias_cancelados }}</td>
+                                                <td>
+                                                    <select id='habitacion_id{{ habitacion.id_hospedaje_habitacion }}' class="form-control">
+                                                        <option *ngFor="let item of [].constructor(calcularDiasDeudaHabitacion(habitacion)), let i = index" value='{{ i+1 }}' selected="option === this.calcularDiasDeuda(habitacion)" #option>{{ i+1 }}</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <button *ngIf="calcularDiasDeudaHabitacion(habitacion) !== 0" type="button" class="btn btn-primary btn-sm" (click)="agregarHabitacion(habitacion)">Agregar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tabla -->
+
+
+                    <!-- Tabla productos -->
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Productos</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover">
+                                        <thead *ngIf="hospedajeProductos?.length > 0" class="text-primary">
+                                            <th>Nombre producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Deuda</th>
+                                            <th>Cantidad cancelados</th>
+                                            <th>Cantidad a pagar</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let producto of hospedajeProductos; let i=index ">
+                                                <td>{{ producto.nombre_producto }}</td>
+                                                <td>{{ producto.cantidad }}</td>
+                                                <td>{{ calcularTotalDeudaProducto(producto) | currency: 'Bs.' }}</td>
+                                                <td>{{ producto.cantidad_cancelados }}</td>
+                                                <td>
+                                                    <select id='producto_id{{ producto.id_hospedaje_producto }}' class="form-control">
+                                                        <option *ngFor="let item of [].constructor( calcularCantidadDeudaProducto(producto) ), let i = index" value='{{ i+1 }}' selected="option === calcularCantidadDeudaProducto(producto)" #option>{{ i+1 }}</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <button *ngIf="calcularCantidadDeudaProducto(producto) !== 0" type="button" class="btn btn-primary btn-sm" (click)="agregarProducto(producto)">Agregar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tabla -->
+
+                    <!-- Tabla productos -->
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Extras</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover">
+                                        <thead *ngIf="extras?.length > 0" class="text-primary">
+                                            <th>Nombre</th>
+                                            <th>Cantidad</th>
+                                            <th>Deuda</th>
+                                            <th>Cantidad cancelados</th>
+                                            <th>Cantidad a pagar</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let extra of extras; let i=index ">
+                                                <td>{{ extra.nombre }}</td>
+                                                <td>{{ extra.cantidad }}</td>
+                                                <td>{{ calcularTotalDeudaExtra(extra) | currency: 'Bs.' }}</td>
+                                                <td>{{ extra.cantidad_cancelados }}</td>
+                                                <td>
+                                                    <select id='extra_id{{ extra.id_extra }}' class="form-control">
+                                                        <option *ngFor="let item of [].constructor( calcularCantidadDeudaExtra(extra) ), let i = index" value='{{ i+1 }}' selected="option === calcularCantidadDeudaExtra(extra)" #option>{{ i+1 }}</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <button *ngIf="calcularCantidadDeudaExtra(extra) !== 0" type="button" class="btn btn-primary btn-sm" (click)="agregarExtra(extra)">Agregar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tabla -->
+
+
+                </div>
+                <div class="col-md-5">
+
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Datos</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <form [formGroup]="formulario" (ngSubmit)="realizarPago()">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['nit'].valid }">
+                                            <label for="nit">NIT*</label>
+                                            <input formControlName="nit" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['nit'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['nit'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 1 caracter
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" [ngClass]="{ 'has-danger': !formulario.controls['razon_social'].valid }">
+                                            <label for="razon_social">Razon Social*</label>
+                                            <input formControlName="razon_social" type="text" class="form-control">
+                                            <div *ngIf="formulario.controls['razon_social'].errors?.required && advertirObligatorios" class="text-danger">
+                                                Este es un campo requerido
+                                            </div>
+                                            <div *ngIf="formulario.controls['razon_social'].errors?.minlength" class="text-danger">
+                                                Este campo debe tener por lo menos 3 caracteres
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <button class="btn btn-primary pull-right">Realizar pago</button>
+                                <div class="clearfix"></div>
+                            </form>
+
+                        </div>
+
+                        <div class="card-body table-responsive">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover">
+                                        <thead *ngIf="factura.detallesFactura?.length > 0" class="text-primary">
+                                            <th>Cantidad</th>
+                                            <th>Detalle</th>
+                                            <th>Precio unitario</th>
+                                            <th>Total</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let detalle of factura.detallesFactura; let i=index ">
+                                                <td>{{ detalle.cantidad }}</td>
+                                                <td>{{ detalle.detalle }}</td>
+                                                <td>{{ detalle.precio_unitario | currency: 'Bs.' }}</td>
+                                                <td>{{ detalle.subtotal | currency: 'Bs.' }}</td>
+                                            </tr>
+                                            <tr *ngIf="factura.detallesFactura?.length > 0">
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <h5>Total:</h5>
+                                                </td>
+                                                <td>
+                                                    <h5>{{ factura.total | currency: 'Bs.' }}</h5>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tabla -->
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

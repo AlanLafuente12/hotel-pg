@@ -1,0 +1,1 @@
+{"version":3,"file":"content-definition.interface.d.ts","sourceRoot":"","sources":["../../../../src/lib/interfaces/content-definition.interface.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,WAAW,kBAAkB;IAC/B,QAAQ,CAAC,EAAE,CAAC,EAAE,MAAM,CAAC;IACrB,QAAQ,CAAC,SAAS,CAAC,EAAE,MAAM,CAAC;IAC5B,QAAQ,CAAC,eAAe,CAAC,EAAE,MAAM,CAAC;IAClC,QAAQ,CAAC,aAAa,CAAC,EAAE,GAAG,CAAC;CAChC"}

@@ -1,0 +1,78 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Hoteles registrados</h4>
+                        </div>
+
+                        <div class="card-body table-responsive">
+                            <button type="submit" routerLink="/hotel/add" class="btn btn-primary pull-right">Agregar nuevo</button>
+
+                            <div class="row justify-content-end">
+                                <div class="col-md-6">
+                                    <div class="input-group no-border">
+                                        <input type="text" value="" class="form-control" placeholder="Buscar...">
+                                        <button type="submit" class="btn btn-default btn-round btn-just-icon">
+                                            <i class="mdi mdi-24px mdi-magnify"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4 *ngIf="hoteles && hoteles.length === 0" class="card-title">
+                                <br>
+                                <p class="text-center">No hay hoteles registrados</p>
+                            </h4>
+                            <table class="table table-hover ">
+                                <thead *ngIf="hoteles?.length > 0" class="text-primary">
+                                    <th></th>
+                                    <th>Nombre</th>
+                                    <th>Dirección</th>
+                                    <th>Departamento</th>
+                                    <th>Nit</th>
+                                    <th>Estrellas</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let hotel of hoteles; let i=index ">
+                                        <td>
+                                            <div class="circular--landscape--small">
+                                                <img [src]="getImageSrc(hotel)">
+                                            </div>
+                                        </td>
+                                        <td>Hotel {{ hotel.nombre_hotel }}</td>
+                                        <td>{{ hotel.direccion }}</td>
+                                        <td>{{ hotel.departamento }}</td>
+                                        <td>{{ hotel.nit }}</td>
+                                        <td>
+                                            <!-- <a *ngFor="let i of [].constructor(3) "> -->
+                                            <a *ngFor="let i of ' '.repeat(hotel.cantidad_estrellas).split( '') ">
+                                                <i class="mdi mdi-24px mdi-star"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning btn-sm" (click)="editarHotel(hotel.id_hotel)">Editar</button>
+                                            <button type="button" class="btn btn-danger btn-sm" (click)="eliminarHotel(hotel.id_hotel)">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

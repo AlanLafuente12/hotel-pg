@@ -1,0 +1,1 @@
+{"version":3,"file":"img.interface.d.ts","sourceRoot":"","sources":["../../../src/lib/interfaces/img.interface.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,GAAG,CAAC;AAErC;;GAEG;AACH,MAAM,WAAW,IAAK,SAAQ,gBAAgB;IAC1C,QAAQ,CAAC,KAAK,EAAE,MAAM,CAAC;IACvB,QAAQ,CAAC,GAAG,CAAC,EAAE,CAAC,MAAM,EAAE,MAAM,CAAC,CAAC;IAChC,QAAQ,CAAC,OAAO,CAAC,EAAE,MAAM,CAAC;CAC7B"}

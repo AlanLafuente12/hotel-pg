@@ -1,0 +1,53 @@
+<!-- Top Navigation -->
+<app-navbar></app-navbar>
+<!-- Content -->
+<div class="main-panel">
+
+    <app-top-navbar [navbarTitle]="this.activatedRoute.snapshot.data.navbarTitle"></app-top-navbar>
+    <!-- End Navbar -->
+
+    <div class="content" style="margin-top: 10vh">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Administradores registrados</h4>
+                        </div>
+
+                        <div class="card-body table-responsive">
+                            <button type="submit" routerLink="/admin/add" class="btn btn-primary pull-right">Agregar nuevo</button>
+
+                            <table class="table table-hover ">
+                                <thead *ngIf="admins && admins?.length > 0" class="text-primary">
+                                    <th></th>
+                                    <th>Nombre de usuario</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let admin of admins; let i=index ">
+                                        <td>
+                                            <i class="mdi mdi-24px mdi-shield-account"></i>
+                                        </td>
+                                        <td>
+                                            {{ admin.nombre_usuario }}
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm" (click)="resetPasswordAdmin(admin)">Reset password</button>
+                                            <!--
+                                                <button type="button" class="btn btn-warning btn-sm" (click)="editarAdmin(admin.id_administrador)">Editar</button>
+                                            -->
+                                            <button type="button" class="btn btn-danger btn-sm" (click)="eliminarAdmin(admin.id_administrador)">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>
